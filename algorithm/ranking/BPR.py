@@ -24,7 +24,7 @@ class BPR(IterativeRecommender):
 
     def buildModel(self):
 
-        print 'Preparing item sets...'
+        print('Preparing item sets...')
         self.PositiveSet = defaultdict(dict)
         #self.NegativeSet = defaultdict(list)
 
@@ -34,7 +34,7 @@ class BPR(IterativeRecommender):
                     self.PositiveSet[user][item] = 1
                 # else:
                 #     self.NegativeSet[user].append(item)
-        print 'training...'
+        print('training...')
         iteration = 0
         itemList = self.data.item.keys()
         while iteration < self.maxIter:

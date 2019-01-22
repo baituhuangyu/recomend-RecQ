@@ -17,11 +17,11 @@ class UserKNN(Recommender):
     def printAlgorConfig(self):
         "show algorithm's configuration"
         super(UserKNN, self).printAlgorConfig()
-        print 'Specified Arguments of',self.config['recommender']+':'
-        print 'num.neighbors:',self.config['num.neighbors']
-        print 'num.shrinkage:', self.config['num.shrinkage']
-        print 'similarity:', self.config['similarity']
-        print '='*80
+        print('Specified Arguments of',self.config['recommender']+':')
+        print('num.neighbors:',self.config['num.neighbors'])
+        print('num.shrinkage:', self.config['num.shrinkage'])
+        print('similarity:', self.config['similarity'])
+        print('='*80)
 
     def initModel(self):
         self.topUsers = {}
@@ -55,18 +55,18 @@ class UserKNN(Recommender):
 
     def computeCorr(self):
         'compute correlation among users'
-        print 'Computing user correlation...'
+        print('Computing user correlation...')
         for u1 in self.data.testSet_u:
 
             for u2 in self.data.user:
-                if u1 <> u2:
+                if u1 != u2:
                     if self.userSim.contains(u1,u2):
                         continue
                     sim = qmath.similarity(self.data.sRow(u1),self.data.sRow(u2),self.sim)
                     self.userSim.set(u1,u2,sim)
             self.topUsers[u1]=sorted(self.userSim[u1].iteritems(), key=lambda d: d[1], reverse=True)
-            print 'user '+u1+' finished.'
-        print 'The user correlation has been figured out.'
+            print('user '+u1+' finished.')
+        print('The user correlation has been figured out.')
 
 
 

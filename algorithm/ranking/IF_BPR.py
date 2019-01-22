@@ -8,10 +8,7 @@ from tool.qmath import sigmoid, cosine
 from math import log
 import gensim.models.word2vec as w2v
 from random import random
-try:
-    import tensorflow as tf
-except ImportError:
-    print 'TensorFlow is undetected on your computer!'
+import tensorflow as tf
 
 
 class IF_BPR(SocialRecommender,DeepRecommender):
@@ -34,11 +31,11 @@ class IF_BPR(SocialRecommender,DeepRecommender):
 
     def printAlgorConfig(self):
         super(IF_BPR, self).printAlgorConfig()
-        print 'Specified Arguments of', self.config['recommender'] + ':'
-        print 'Walks count per user', self.walkCount
-        print 'Length of each walk', self.walkLength
-        print 'Dimension of user embedding', self.walkDim
-        print '=' * 80
+        print('Specified Arguments of', self.config['recommender'] + ':')
+        print('Walks count per user', self.walkCount)
+        print('Length of each walk', self.walkLength)
+        print('Dimension of user embedding', self.walkDim)
+        print('=' * 80)
 
     def readNegativeFeedbacks(self):
         self.negative = defaultdict(list)
@@ -70,7 +67,7 @@ class IF_BPR(SocialRecommender,DeepRecommender):
         self.thres_d = dict.fromkeys(self.data.user.keys(),0) #derivatives for learning thresholds
         self.thres_count = dict.fromkeys(self.data.user.keys(),0)
 
-        print 'Preparing item sets...'
+        print('Preparing item sets...')
         self.PositiveSet = defaultdict(dict)
         self.NegSets = defaultdict(dict)
 
@@ -84,9 +81,9 @@ class IF_BPR(SocialRecommender,DeepRecommender):
                     self.NegSets[user][item] = 1
 
     def randomWalks(self):
-        print 'Kind Note: This method will probably take much time.'
+        print('Kind Note: This method will probably take much time.')
         # build U-F-NET
-        print 'Building weighted user-friend network...'
+        print('Building weighted user-friend network...')
         # filter isolated nodes and low ratings
         # Definition of Meta-Path
         p1 = 'UIU'
@@ -104,7 +101,7 @@ class IF_BPR(SocialRecommender,DeepRecommender):
             s1 = set(self.social.followees[u])
             for v in self.social.followees[u]:
                 if v in self.social.followees:  # make sure that v has out links
-                    if u <> v:
+                    if u != v:
                         s2 = set(self.social.followees[v])
                         weight = len(s1.intersection(s2))
                         self.UFNet[u] += [v] * (weight + 1)
@@ -114,12 +111,12 @@ class IF_BPR(SocialRecommender,DeepRecommender):
             s1 = set(self.social.followers[u])
             for v in self.social.followers[u]:
                 if self.social.followers.has_key(v):  # make sure that v has out links
-                    if u <> v:
+                    if u != v:
                         s2 = set(self.social.followers[v])
                         weight = len(s1.intersection(s2))
                         self.UTNet[u] += [v] * (weight + 1)
 
-        print 'Generating random meta-path random walks... (Positive)'
+        print('Generating random meta-path random walks... (Positive)')
         self.pWalks = []
         # self.usercovered = {}
 
@@ -241,12 +238,12 @@ class IF_BPR(SocialRecommender,DeepRecommender):
                         self.nWalks.append(path)
 
         shuffle(self.pWalks)
-        print 'pwalks:', len(self.pWalks)
-        print 'nwalks:', len(self.nWalks)
+        print('pwalks:', len(self.pWalks))
+        print('nwalks:', len(self.nWalks))
 
     def computeSimilarity(self):
         # Training get top-k friends
-        print 'Generating user embedding...'
+        print('Generating user embedding...')
         self.pTopKSim = {}
         self.nTopKSim = {}
         self.pSimilarity = defaultdict(dict)
@@ -265,18 +262,18 @@ class IF_BPR(SocialRecommender,DeepRecommender):
                 self.G[uid] = neg_model.wv['U' + user]
             except KeyError:
                 continue
-        print 'User embedding generated.'
+        print('User embedding generated.')
 
-        print 'Constructing similarity matrix...'
+        print('Constructing similarity matrix...')
         i = 0
         for user1 in self.positive:
             uSim = []
             i += 1
             if i % 200 == 0:
-                print i, '/', len(self.positive)
+                print(i, '/', len(self.positive))
             vec1 = self.W[self.data.user[user1]]
             for user2 in self.positive:
-                if user1 <> user2:
+                if user1 != user2:
                     vec2 = self.W[self.data.user[user2]]
                     sim = cosine(vec1, vec2)
                     uSim.append((user2, sim))
@@ -292,10 +289,10 @@ class IF_BPR(SocialRecommender,DeepRecommender):
             uSim = []
             i += 1
             if i % 200 == 0:
-                print i, '/', len(self.negative)
+                print(i, '/', len(self.negative))
             vec1 = self.G[self.data.user[user1]]
             for user2 in self.negative:
-                if user1 <> user2:
+                if user1 != user2:
                     vec2 = self.G[self.data.user[user2]]
                     sim = cosine(vec1, vec2)
                     uSim.append((user2, sim))
@@ -343,7 +340,7 @@ class IF_BPR(SocialRecommender,DeepRecommender):
         self.randomWalks()
         self.computeSimilarity()
 
-        print 'Decomposing...'
+        print('Decomposing...')
         iteration = 0
         while iteration < self.maxIter:
             self.loss = 0
@@ -427,7 +424,7 @@ class IF_BPR(SocialRecommender,DeepRecommender):
         try:
             g_theta = sigmoid((self.pSimilarity[user][friend]-self.threshold[user])/(self.avg_sim[user]-self.threshold[user]))
         except OverflowError:
-            print 'threshold',self.threshold[user],'smilarity',self.pSimilarity[user][friend],'avg',self.avg_sim[user]
+            print('threshold',self.threshold[user],'smilarity',self.pSimilarity[user][friend],'avg',self.avg_sim[user])
             print (self.pSimilarity[user][friend]-self.threshold[user]),(self.avg_sim[user]-self.threshold[user])
             print (self.pSimilarity[user][friend]-self.threshold[user])/(self.avg_sim[user]-self.threshold[user])
             exit(-1)

@@ -19,11 +19,11 @@ class CoFactor(IterativeRecommender):
 
     def printAlgorConfig(self):
         super(CoFactor, self).printAlgorConfig()
-        print 'Specified Arguments of', self.config['recommender'] + ':'
-        print 'k: %d' % self.negCount
-        print 'regR: %.5f' %self.regR
-        print 'filter: %d' %self.filter
-        print '=' * 80
+        print('Specified Arguments of', self.config['recommender'] + ':')
+        print('k: %d' % self.negCount)
+        print('regR: %.5f' %self.regR)
+        print('filter: %d' %self.filter)
+        print('=' * 80)
 
     def initModel(self):
         super(CoFactor, self).initModel()
@@ -35,14 +35,14 @@ class CoFactor(IterativeRecommender):
         #constructing SPPMI matrix
         self.SPPMI = defaultdict(dict)
         D = len(self.data.item)
-        print 'Constructing SPPMI matrix...'
+        print('Constructing SPPMI matrix...')
         #for larger data set has many items, the process will be time consuming
         occurrence = defaultdict(dict)
         i=0
         for item1 in self.data.item:
             i += 1
             if i % 100 == 0:
-                print str(i) + '/' + str(len(self.data.item))
+                print(str(i) + '/' + str(len(self.data.item)))
             uList1, rList1 = self.data.itemRated(item1)
 
             if len(uList1) < self.filter:
@@ -71,8 +71,8 @@ class CoFactor(IterativeRecommender):
                     val = max([log(occurrence[item1][item2] * D / (frequency[item1] * frequency[item2]), 2) - log(
                         self.negCount, 2), 0])
                 except ValueError:
-                    print self.SPPMI[item1][item2]
-                    print self.SPPMI[item1][item2] * D / (frequency[item1] * frequency[item2])
+                    print(self.SPPMI[item1][item2])
+                    print(self.SPPMI[item1][item2] * D / (frequency[item1] * frequency[item2]))
 
                 if val > 0:
                     if maxVal < val:

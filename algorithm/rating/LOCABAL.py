@@ -16,9 +16,9 @@ class LOCABAL(SocialRecommender):
 
     def printAlgorConfig(self):
         super(LOCABAL, self).printAlgorConfig()
-        print 'Specified Arguments of',self.config['recommender']+':'
-        print 'alpha: %.3f' %self.alpha
-        print '='*80
+        print('Specified Arguments of',self.config['recommender']+':')
+        print('alpha: %.3f' %self.alpha)
+        print('='*80)
 
     def initModel(self):
         super(LOCABAL, self).initModel()

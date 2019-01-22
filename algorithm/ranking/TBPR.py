@@ -82,7 +82,7 @@ class TBPR(SocialRecommender):
                 if self.data.trainSet_u[user][item] >= 1:
                     self.positiveSet[user][item] = 1
 
-        print 'Training...'
+        print('Training...')
         iteration = 0
         while iteration < self.maxIter:
             self.theta_derivative=0
@@ -101,9 +101,9 @@ class TBPR(SocialRecommender):
             # if self.theta==0:
             #     self.theta=0.02
             self.g_theta = (self.t_s-self.theta)*(self.theta-self.t_w)
-            print 'Theta:',self.theta
-            print 'g_theta:',self.g_theta
-            print 'Preparing item sets...'
+            print('Theta:',self.theta)
+            print('g_theta:',self.g_theta)
+            print('Preparing item sets...')
 
             self.jointSet = defaultdict(dict)
             self.strongSet = defaultdict(dict)
@@ -134,7 +134,7 @@ class TBPR(SocialRecommender):
                     if len(self.weakSet[u1])==0:
                         del self.weakSet[u1]
 
-            print 'Computing...'
+            print('Computing...')
             self.loss = 0
             itemList = self.data.item.keys()
             for user in self.positiveSet:

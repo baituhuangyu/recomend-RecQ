@@ -37,7 +37,7 @@ class SocialMF(SocialRecommender ):
                             uf = self.data.user[followee]
                             fPred += weight * self.P[uf]
                             denom += weight
-                    if denom <> 0:
+                    if denom != 0:
                         relationLoss = p - fPred / denom
 
                     self.loss +=  self.regS *  relationLoss.dot(relationLoss)

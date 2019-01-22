@@ -13,7 +13,7 @@ class SBPR(SocialRecommender):
 
     def buildModel(self):
         self.b = np.random.random(self.data.trainingSize()[1])
-        print 'Preparing item sets...'
+        print('Preparing item sets...')
         self.PositiveSet = defaultdict(dict)
         self.IPositiveSet = defaultdict(dict)
         # self.NegativeSet = defaultdict(list)
@@ -34,7 +34,7 @@ class SBPR(SocialRecommender):
                                 else:
                                     self.IPositiveSet[user][item] += 1
         Suk=1
-        print 'Training...'
+        print('Training...')
         iteration = 0
         while iteration < self.maxIter:
             self.loss = 0

@@ -16,11 +16,11 @@ class ItemKNN(Recommender):
     def printAlgorConfig(self):
         "show algorithm's configuration"
         super(ItemKNN, self).printAlgorConfig()
-        print 'Specified Arguments of',self.config['recommender']+':'
-        print 'num.neighbors:',self.config['num.neighbors']
-        print 'num.shrinkage:', self.config['num.shrinkage']
-        print 'similarity:', self.config['similarity']
-        print '='*80
+        print('Specified Arguments of',self.config['recommender']+':')
+        print('num.neighbors:',self.config['num.neighbors'])
+        print('num.shrinkage:', self.config['num.shrinkage'])
+        print('similarity:', self.config['similarity'])
+        print('='*80)
 
     def initModel(self):
         self.topItems = {}
@@ -54,18 +54,18 @@ class ItemKNN(Recommender):
 
     def computeCorr(self):
         'compute correlation among items'
-        print 'Computing item correlation...'
+        print('Computing item correlation...')
         for i1 in self.data.testSet_i:
 
             for i2 in self.data.item:
-                if i1 <> i2:
+                if i1 != i2:
                     if self.itemSim.contains(i1,i2):
                         continue
                     sim = qmath.similarity(self.data.sCol(i1),self.data.sCol(i2),self.sim)
                     self.itemSim.set(i1,i2,sim)
             self.topItems[i1] = sorted(self.itemSim[i1].iteritems(),key = lambda d:d[1],reverse=True)
-            print 'item '+i1+' finished.'
-        print 'The item correlation has been figured out.'
+            print('item '+i1+' finished.')
+        print('The item correlation has been figured out.')
 
 
 

@@ -6,7 +6,7 @@ from tool import config
 try:
     import tensorflow as tf
 except ImportError:
-    print 'This method can only run on tensorflow!'
+    print('This method can only run on tensorflow!')
     exit(-1)
 from tensorflow import set_random_seed
 set_random_seed(2)
@@ -121,7 +121,7 @@ class CDAE(DeepRecommender):
 
                 _, loss = self.sess.run([optimizer, self.loss], feed_dict={self.X: batch_xs,self.mask_corruption:mask,self.v_idx:users,self.sample:sample})
 
-                print self.foldInfo,"Epoch:", '%04d' % (epoch + 1),"Batch:", '%03d' %(i+1),"loss=", "{:.9f}".format(loss)
+                print(self.foldInfo,"Epoch:", '%04d' % (epoch + 1),"Batch:", '%03d' %(i+1),"loss=", "{:.9f}".format(loss))
             self.ranking_performance()
         print("Optimization Finished!")
 
