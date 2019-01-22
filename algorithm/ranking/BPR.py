@@ -45,7 +45,7 @@ class BPR(IterativeRecommender):
                     i = self.data.item[item]
 
                     item_j = choice(itemList)
-                    while (self.PositiveSet[user].has_key(item_j)):
+                    while (item_j in self.PositiveSet[user]):
                         item_j = choice(itemList)
                     j = self.data.item[item_j]
                     self.optimization(u,i,j)

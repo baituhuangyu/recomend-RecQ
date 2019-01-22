@@ -6,32 +6,32 @@ class SymmetricMatrix(object):
         self.shape = (shape,shape)
 
     def __getitem__(self, item):
-        if self.symMatrix.has_key(item):
+        if item in self.symMatrix:
             return self.symMatrix[item]
         return {}
 
     def set(self,i,j,val):
-        if not self.symMatrix.has_key(i):
+        if i not in self.symMatrix:
             self.symMatrix[i] = {}
         self.symMatrix[i][j]=val
-        if not self.symMatrix.has_key(j):
+        if j not in self.symMatrix:
             self.symMatrix[j] = {}
         self.symMatrix[j][i] = val
 
 
     def get(self,i,j):
-        if not self.symMatrix.has_key(i) or not self.symMatrix[i].has_key(j):
+        if i not in self.symMatrix or j not in self.symMatrix[i]:
             return 0
         return self.symMatrix[i][j]
 
     def contains(self,i,j):
-        if self.symMatrix.has_key(i) and self.symMatrix[i].has_key(j):
+        if i in self.symMatrix and j in self.symMatrix[i]:
             return True
         else:
             return False
 
     # def row(self, r):
-    #     if not self.symMatrix.has_key(r):
+    #     if r not in self.symMatrix:
     #         return np.zeros((1, self.shape[1]))
     #     else:
     #         array = np.zeros((1, self.shape[1]))

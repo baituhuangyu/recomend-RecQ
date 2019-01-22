@@ -24,12 +24,12 @@ class SBPR(SocialRecommender):
                     self.PositiveSet[user][item] = 1
                     # else:
                     #     self.NegativeSet[user].append(item)
-            if self.social.user.has_key(user):
+            if user in self.social.user:
                 for friend in self.social.getFollowees(user):
-                    if self.data.user.has_key(friend):
+                    if friend in self.data.user:
                         for item in self.data.trainSet_u[friend]:
-                            if not self.PositiveSet[user].has_key(item):
-                                if not self.IPositiveSet[user].has_key(item):
+                            if item not in self.PositiveSet[user]:
+                                if item not in self.IPositiveSet[user]:
                                     self.IPositiveSet[user][item] = 1
                                 else:
                                     self.IPositiveSet[user][item] += 1
@@ -59,7 +59,7 @@ class SBPR(SocialRecommender):
                             #     item_j = choice(self.NegativeSet[user])
                             # else:
                             item_j = choice(itemList)
-                            while (self.PositiveSet[user].has_key(item_j) or self.IPositiveSet.has_key(item_j)):
+                            while (item_j in self.PositiveSet[user] or item_j in self.IPositiveSet):
                                 item_j = choice(itemList)
                             j = self.data.item[item_j]
                             s = sigmoid(self.P[u].dot(self.Q[k])+self.b[k] - self.P[u].dot(self.Q[j])-self.b[j])
@@ -78,7 +78,7 @@ class SBPR(SocialRecommender):
                                          - log(sigmoid(self.P[u].dot(self.Q[k])+self.b[k] - self.P[u].dot(self.Q[j])-self.b[j]))
                         else:
                             item_j = choice(itemList)
-                            while (self.PositiveSet[user].has_key(item_j)):
+                            while (item_j in self.PositiveSet[user]):
                                 item_j = choice(itemList)
                             j = self.data.item[item_j]
                             s = sigmoid(self.P[u].dot(self.Q[i])+self.b[i] - self.P[u].dot(self.Q[j])-self.b[j])

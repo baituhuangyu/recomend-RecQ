@@ -43,7 +43,7 @@ class CDAE(DeepRecommender):
                 evaluated[n][iid]=True
             for i in range(self.negative_sp*len(ratedItems)):
                 ng = choice(itemList)
-                while self.data.trainSet_u.has_key(ng):
+                while ng in self.data.trainSet_u:
                     ng = choice(itemList)
                 ng = self.data.item[ng]
                 evaluated[n][ng]=True

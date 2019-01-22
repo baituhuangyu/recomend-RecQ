@@ -1,7 +1,7 @@
 import os.path
 from os import makedirs,remove
 from re import compile,findall,split
-from config import LineConfig
+from tool.config import LineConfig
 class FileIO(object):
     def __init__(self):
         pass

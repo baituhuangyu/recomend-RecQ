@@ -24,7 +24,7 @@ def cosine_sp(x1,x2):
     denom2 =0
     try:
         for k in x1:
-            if x2.has_key(k):
+            if k in x2:
                 total+=x1[k]*x2[k]
                 denom1+=x1[k]**2
                 denom2+=x2[k]**2
@@ -55,7 +55,7 @@ def pearson_sp(x1,x2):
         mean1 = sum(x1.values())/(len(x1)+0.0)
         mean2 = sum(x2.values()) / (len(x2) + 0.0)
         for k in x1:
-            if x2.has_key(k):
+            if k in x2:
                 total += (x1[k]-mean1) * (x2[k]-mean2)
                 denom1 += (x1[k]-mean1) ** 2
                 denom2 += (x2[k]-mean2) ** 2

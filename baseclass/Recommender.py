@@ -32,7 +32,7 @@ class Recommender(object):
             threshold = int(self.evalSettings['-cold'])
             removedUser = {}
             for user in self.data.testSet_u:
-                if self.data.trainSet_u.has_key(user) and len(self.data.trainSet_u[user])>threshold:
+                if user in self.data.trainSet_u and len(self.data.trainSet_u[user])>threshold:
                     removedUser[user]=1
 
             for user in removedUser:
@@ -40,7 +40,7 @@ class Recommender(object):
 
             testData = []
             for item in self.data.testData:
-                if not removedUser.has_key(item[0]):
+                if item[0] not in removedUser:
                     testData.append(item)
             self.data.testData = testData
 
@@ -206,7 +206,7 @@ class Recommender(object):
                 print(self.algorName, self.foldInfo, 'progress:' + str(i) + '/' + str(userCount))
             for item in recList[user]:
                 line += ' (' + item[0] + ',' + str(item[1]) + ')'
-                if self.data.testSet_u[user].has_key(item[0]):
+                if item[0] in self.data.testSet_u[user]:
                     line += '*'
 
             line += '\n'

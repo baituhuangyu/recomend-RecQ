@@ -35,7 +35,7 @@ if __name__ == '__main__':
     print('='*80)
     algor = -1
     conf = -1
-    order = raw_input('please enter the num of the algorithm to run it:')
+    order = input('please enter the num of the algorithm to run it:')
     import time
     s = time.time()
     if order == '0':

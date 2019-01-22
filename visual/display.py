@@ -1,4 +1,4 @@
-from chart import Chart
+from visual.chart import Chart
 from tool.config import Config
 from data.rating import RatingDAO
 from data.social import SocialDAO
